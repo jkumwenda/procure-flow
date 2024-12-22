@@ -1,5 +1,6 @@
 <template>
-  <div class="flex flex-col space-y-1 font-roboto-light rounded-xl text-catskill-white-50 bg-catalina-blue-500 px-4 py-2">
+  <div
+    class="flex flex-col space-y-1 font-roboto-light rounded-xl text-catskill-white-50 bg-catalina-blue-500 px-4 py-2">
     <p class="font-bold text-md">My Requests</p>
     <p class="text-sm font-roboto-light text-catskill-white-800">
       <router-link :to="{ name: 'Dashboard' }" class="font-bold hover:text-catskill-white-600">Dashboard</router-link>
@@ -92,25 +93,30 @@
         </template>
       </div>
     </div>
+    <delete-confirmation-modal :show="showDeleteModal" @confirmed="deleteRequest(deleteRequestId)"
+      @canceled="cancelDelete"></delete-confirmation-modal>
   </div>
 </template>
 
 <script>
-import { fetchItem } from "@/services/apiService";
+import { fetchItem, deleteItem } from "@/services/apiService";
 import RequestItemCard from "@/components/RequestItemCard.vue";
 import SpinnerComponent from "@/components/Spinner.vue";
+import DeleteConfirmationModal from "@/components/DeleteConfirmationModal.vue";
 
 export default {
   name: "MyRequestsView",
   components: {
     RequestItemCard,
-    SpinnerComponent
+    SpinnerComponent, DeleteConfirmationModal
   },
   data() {
     return {
       id: 0,
       requests: [],
       isLoading: true,
+      showDeleteModal: false,
+      deleteRequestId: null,
     };
   },
   mounted() {
@@ -132,6 +138,29 @@ export default {
     },
     filteredRequests(status) {
       return this.requests.filter((request) => request.request.request_status === status);
+    },
+    async deleteRequest(id) {
+      this.isLoading = true;
+      try {
+        await deleteItem("requests", id);
+        const index = this.requests.findIndex((request) => request.request.id === id);
+        if (index !== -1) {
+          this.requests.splice(index, 1);
+        }
+        this.showDeleteModal = false;
+        this.isLoading = false;
+      } catch (error) {
+        console.error("Error fetching requests:", error);
+        this.isLoading = false;
+        this.showDeleteModal = false;
+      }
+    },
+    showDeleteConfirmation(id) {
+      this.deleteRequestId = id;
+      this.showDeleteModal = true;
+    },
+    cancelDelete() {
+      this.showDeleteModal = false;
     },
   },
 };

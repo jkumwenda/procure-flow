@@ -17,6 +17,7 @@ from schemas.schemas import (
     UserPositionSchema,
     UserSchema,
     UserBaseSchema,
+    UserResetPasswordSchema,
 )
 from models import Users, UserRole, UserDepartment, UserPosition, UserSignature
 from dependencies import Security
@@ -179,6 +180,26 @@ async def update_password(
     raise HTTPException(status_code=200, detail="Password updated successfully")
 
 
+@router.put("/reset_password/{user_id}")
+async def reset_password(
+    user_id: int,
+    user: user_dependency,
+    reset_password_schema: UserResetPasswordSchema,
+    db: Session = Depends(get_db),
+):
+    # security.secureAccess("UPDATE_USER", user["id"], db)
+    user = get_object(user_id, db, Users)
+    password = reset_password_schema.password
+
+    db.query(Users).filter(Users.id == user_id).update(
+        {"password": utils.hash_password(reset_password_schema.password)}
+    )
+    db.commit()
+    # Send a confirmation email (you can customize this part)
+    utils.password_change_email(user.email, user.firstname, password)
+    raise HTTPException(status_code=200, detail="Password updated successfully")
+
+
 @router.get("/{user_id}")
 async def get_user(
     user_id: int,
@@ -322,7 +343,7 @@ async def delete_user_signature(
         db.commit()
         raise HTTPException(
             status_code=200,
-            detail=f"Signatyre {user_signature.file_location} removed successfully.",
+            detail=f"Signature {user_signature.file_location} removed successfully.",
         )
     except OSError as e:
         raise HTTPException(

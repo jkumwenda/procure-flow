@@ -12,7 +12,7 @@
               <div class="p-2 rounded-xl items-end justify-end bg-catskill-white-100 text-electric-violet-800">
                 <EyeIcon class="w-6 h-6" />
               </div>
-              <icon>10 Users</icon>
+              <icon>{{ total_users }} Users</icon>
             </div>
             <div class="flex flex-col">
               <p class="font-bold text-lg">{{ total_requests }}</p>
@@ -28,7 +28,7 @@
               <div class="p-2 rounded-xl items-end justify-end bg-catskill-white-100 text-flamingo-500">
                 <CashIcon class="w-6 h-6" />
               </div>
-              <icon>72.01%</icon>
+              <!-- <icon>72.01%</icon> -->
             </div>
             <div class="flex flex-col">
               <p class="font-bold text-lg">MWK {{ total_budget }}</p>
@@ -44,10 +44,10 @@
               <div class="p-2 rounded-xl items-end justify-end bg-catskill-white-100 text-blue-ribbon-500">
                 <ShoppingBagIcon class="w-6 h-6" />
               </div>
-              <icon>93.2% --</icon>
+              <!-- <icon>93.2% --</icon> -->
             </div>
             <div class="flex flex-col">
-              <p class="font-bold text-lg">32</p>
+              <p class="font-bold text-lg">{{ total_suppliers }}</p>
               <div class="flex flex-1 flex-row justify-between">
                 <p class="text-sm">Number of Suppliers</p>
                 <InformationCircleIcon class="w-5 h-5" />
@@ -66,7 +66,8 @@
         </div>
       </div>
       <div class="sm:w-4/12 w-12/12 flex flex-col space-y-4 bg-catskill-white-100 p-4 rounded-xl shadow-sm">
-        <div class="flex flex-col rounded-xl space-y-2 bg-catalina-blue-500 text-selago-500 p-4 items-center text-center">
+        <div
+          class="flex flex-col rounded-xl space-y-2 bg-catalina-blue-500 text-selago-500 p-4 items-center text-center">
 
           <div class="flex flex-col items-center text-center">
             <img alt="Vue logo" class="object-cover w-7/12 rounded-full" src="@/assets/profile.jpg" />
@@ -77,11 +78,13 @@
             </p>
             <p v-for="position in positions" :key="position.id" class="text-sm">{{ position.position }}</p>
             <div class="flex flex-row space-x-8 justify-between">
-              <div class="flex flex-col text-center text-sm border border-2 border-catalina-blue-400 p-1 px-4 rounded-xl">
+              <div
+                class="flex flex-col text-center text-sm border border-2 border-catalina-blue-400 p-1 px-4 rounded-xl">
                 <div class="font-bold">{{ user.user_total_requests }}</div>
                 <div class="font-roboto-light">Requests</div>
               </div>
-              <div class="flex flex-col text-center text-sm border border-2 border-catalina-blue-400 p-1 px-4 rounded-xl">
+              <div
+                class="flex flex-col text-center text-sm border border-2 border-catalina-blue-400 p-1 px-4 rounded-xl">
                 <div class="font-bold">{{ user.approved_requests }}</div>
                 <div class="font-roboto-light">Approved</div>
               </div>
@@ -138,6 +141,8 @@ export default {
       positions: {},
       requests: {},
       user_total_requests: "",
+      total_suppliers: "",
+      total_users: "",
       total_budget: "",
       isLoading: true,
     };
@@ -168,6 +173,8 @@ export default {
         this.requests = response.requests;
         this.total_requests = response.total_requests
         this.total_budget = response.total_budget
+        this.total_users = response.total_users
+        this.total_suppliers = response.total_suppliers
         this.isLoading = false;
       } catch (error) {
         console.error("Error fetching request:", error);

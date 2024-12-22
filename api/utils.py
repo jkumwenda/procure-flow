@@ -214,5 +214,3 @@ def reject_request_email(recipient_email, firstname, request_detail):
         firstname=firstname,
     )
     send_email(recipient_email, subject, email_body)
-    
-  

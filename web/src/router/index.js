@@ -24,6 +24,7 @@ const routeComponents = {
   AddUserView: () => import("@/views/manage/users/Add.vue"),
   UserView: () => import("@/views/manage/users/User.vue"),
   EditUserView: () => import("@/views/manage/users/Edit.vue"),
+  MyProfileView: () => import("@/views/manage/users/MyProfile.vue"),
   RolesView: () => import("@/views/manage/roles/Roles.vue"),
   AddRoleView: () => import("@/views/manage/roles/Add.vue"),
   EditRoleView: () => import("@/views/manage/roles/Edit.vue"),
@@ -181,6 +182,11 @@ const routes = [
         path: "/edit-user/:id",
         name: "EditUser",
         component: routeComponents.EditUserView,
+      },
+      {
+        path: "/my-profile/:id",
+        name: "MyProfile",
+        component: routeComponents.MyProfileView,
       },
       { path: "/roles", name: "Roles", component: routeComponents.RolesView },
       {

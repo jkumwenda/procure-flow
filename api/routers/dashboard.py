@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from fastapi import APIRouter, Depends
-from models import Users, Request, Budget
+from models import Users, Request, Budget, Supplier
 from dependencies import Security
 from database import get_db
 from sqlalchemy import func
@@ -32,6 +32,8 @@ async def get_dashboard_data(
         [request for request in user.request if request.request_status == 3]
     )
     total_requests = len(db.query(Request).all())
+    total_users = len(db.query(Users).all())
+    total_suppliers = len(db.query(Supplier).all())
 
     total_amount = db.query(func.sum(Budget.amount)).scalar()
     if total_amount is None:
@@ -63,4 +65,6 @@ async def get_dashboard_data(
         ],
         "total_requests": total_requests,
         "total_budget": total_amount,
+        "total_users": total_users,
+        "total_suppliers": total_suppliers,
     }

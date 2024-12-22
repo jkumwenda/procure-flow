@@ -42,7 +42,7 @@ export default {
     return { loginUser }
   },
   methods: {
-    async profile() { router.push("/user/" + this.loginUser.id); },
+    async profile() { router.push("/my-profile/" + this.loginUser.id); },
 
     async logout() {
       const authStore = useAuthStore();

@@ -7,7 +7,8 @@
         class="flex flex-col space-y-1 font-roboto-light rounded-xl text-catskill-white-50 bg-catalina-blue-500 px-4 py-2">
         <p class="font-bold text-md">User profile</p>
         <p class="text-sm font-roboto-light text-catskill-white-800">
-          <router-link :to="{ name: 'Dashboard' }" class="font-bold hover:text-catskill-white-600">Dashboard</router-link>
+          <router-link :to="{ name: 'Dashboard' }"
+            class="font-bold hover:text-catskill-white-600">Dashboard</router-link>
           <span class="px-2">|</span>
           <span>User profile</span>
         </p>
@@ -37,9 +38,31 @@
                 Reset Password
               </button>
             </div>
-            <div v-if="message" class="p-4 m-6 rounded-xl text-catskill-white-100 py-2 text-sm bg-mountain-meadow-500">{{
-              message }}
+            <div v-if="message" class="p-4 m-6 rounded-xl text-catskill-white-100 py-2 text-sm bg-mountain-meadow-500">
+              {{
+                message }}
             </div>
+
+
+            <div class="flex flex-col space-y-4 bg-catskill-white-100 p-4 px-4 rounded-2xl shadow-sm">
+              <h1 class="text-xl font-bold">Signature</h1>
+              <div class="space-y-2">
+
+                <button @click="showUploadSignatureFile()"
+                  class="flex px-3 py-1 text-dodger-blue-700 border border-dodger-blue-600 hover:bg-dodger-blue-200 rounded-xl text-sm font-bold">
+                  Upload signature
+                </button>
+
+                <div class="p-4 py-1 text-sm m-1 bg-dodger-blue-300 text-dodger-blue-800 rounded-xl"
+                  v-for="signature in signatures" :key="signature.id">
+                  {{ signature.file_name }}
+                </div>
+
+                <div class="flex flex-1 flex-wrap">
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
         <div class="flex space-x-4 w-9/12">
@@ -128,6 +151,9 @@
         </div>
       </div>
     </div>
+    <upload-signature-file-modal :show="showUploadSignatureFileModal" @confirmed="confirmUploadSignatureFile"
+      @closed="cancelUploadSignatureFile" :user_id="user.id" @file-uploaded="refreshItems">
+    </upload-signature-file-modal>
   </div>
 </template>
 
@@ -135,11 +161,12 @@
 import { fetchItem, createItem, fetchData, deleteItem, updateItem } from "@/services/apiService";
 import SpinnerComponent from "@/components/Spinner.vue";
 import { useAuthStore } from "@/store/authStore";
+import UploadSignatureFileModal from "@/components/UploadSignatureFileModal.vue";
 
 export default {
   name: "UserView",
   components: {
-    SpinnerComponent,
+    SpinnerComponent, UploadSignatureFileModal
   },
   data() {
     return {
@@ -156,13 +183,15 @@ export default {
       positionData: {},
       departmentData: {},
       message: "",
+      signatures: [],
       userPasswordData: {
         id: "",
       },
       currentPage: 1,
       totalPages: "",
       pageSize: 100,
-      searchPhrase: ""
+      searchPhrase: "",
+      showUploadSignatureFileModal: false,
     };
   },
   mounted() {
@@ -212,6 +241,7 @@ export default {
         this.assignedRoles = response.roles;
         this.assignedDepartments = response.departments;
         this.assignedPositions = response.positions;
+        this.signatures = response.signatures;
         this.isLoading = false;
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -348,6 +378,16 @@ export default {
         console.error("Error fetching users:", error);
         this.isLoading = false;
       }
+    },
+    showUploadSignatureFile() {
+      this.showUploadSignatureFileModal = true;
+    },
+    confirmUploadSignatureFile() {
+      this.getUser();
+      this.showUploadSignatureFileModal = false;
+    },
+    cancelUploadSignatureFile() {
+      this.showUploadSignatureFileModal = false;
     },
   },
 };

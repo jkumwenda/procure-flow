@@ -1,7 +1,5 @@
 <template>
   <div class="flex sm:flex-row flex-col min-h-screen z-1">
-
-
     <div class="sm:w-2/12 w-12/12 bg-catalina-blue-500 border-r border-silver-400 text-catskill-white-100">
       <div class="flex py-6 flex-col space-y-4">
         <router-link :to="{ name: 'Dashboard' }" class="flex justify-center items-center p-1">
@@ -10,24 +8,24 @@
         <div class="space-y-1">
           <router-link v-if="permissions.includes('VIEW_DASHBOARD')" :to="{ name: 'Dashboard' }"
             :class="{ 'bg-catalina-blue-50': $route.name === 'Dashboard' }"
-            class="flex items-center p-2 p-3 mr-3 text-md block font-roboto-light rounded-tr-xl rounded-br-xl">
+            class="flex items-center p-3 mr-3 text-md  font-roboto-light rounded-tr-xl rounded-br-xl">
             <HomeIcon class="h-6 w-6 mr-2 stroke-1" />
             Dashboard
           </router-link>
           <router-link v-if="permissions.includes('VIEW_REQUEST')" :to="{ name: 'Requests' }"
             :class="{ 'bg-catalina-blue-50': ['Requests', 'EditRequest', 'Request', 'RequestNotifications'].includes($route.name) }"
-            class="flex items-center p-2 p-3 mr-3 text-m block font-roboto-light rounded-tr-xl rounded-br-xl hover:bg-catalina-blue-50">
+            class="flex items-center p-3 mr-3 text-m  font-roboto-light rounded-tr-xl rounded-br-xl hover:bg-catalina-blue-50">
             <TableIcon class="h-6 w-6 mr-2 stroke-1" />
             Requests
           </router-link>
           <router-link :to="{ name: 'MyRequests' }" :class="{ 'bg-catalina-blue-50': $route.name === 'MyRequests' }"
-            class="flex items-center p-2 p-3 mr-3 text-m block font-roboto-light rounded-tr-xl rounded-br-xl hover:bg-catalina-blue-50">
+            class="flex items-center p-3 mr-3 text-m  font-roboto-light rounded-tr-xl rounded-br-xl hover:bg-catalina-blue-50">
             <ViewGridIcon class="h-6 w-6 mr-2 stroke-1" />
             My Requests
           </router-link>
           <router-link v-if="permissions.includes('ADD_REQUEST')" :to="{ name: 'AddRequest' }"
             :class="{ 'bg-catalina-blue-50': ['AddRequest'].includes($route.name) }"
-            class="flex items-center p-2 p-3 mr-3 text-m block font-roboto-light rounded-tr-xl rounded-br-xl hover:bg-catalina-blue-50">
+            class="flex items-center p-3 mr-3 text-m  font-roboto-light rounded-tr-xl rounded-br-xl hover:bg-catalina-blue-50">
             <ViewGridAddIcon class="h-6 w-6 mr-2 stroke-1" />
             Create Request
           </router-link>
@@ -39,19 +37,19 @@
           <div class="">
             <router-link v-if="permissions.includes('READ_USER')" :to="{ name: 'Users' }"
               :class="{ 'bg-catalina-blue-50': ['Users', 'AddUser', 'EditUser', 'User'].includes($route.name) }"
-              class="flex items-center p-2 p-3 mr-3 text-m block font-roboto-light rounded-tr-xl rounded-br-xl hover:bg-catalina-blue-50">
+              class="flex items-center p-3 mr-3 text-m  font-roboto-light rounded-tr-xl rounded-br-xl hover:bg-catalina-blue-50">
               <UsersIcon class="h-6 w-6 mr-2 stroke-1" />
               Users
             </router-link>
             <router-link v-if="permissions.includes('READ_ROLE')" :to="{ name: 'Roles' }"
               :class="{ 'bg-catalina-blue-50': ['Roles', 'AddRole', 'EditRol', 'Role'].includes($route.name) }"
-              class="flex items-center p-2 p-3 mr-3 text-m block font-roboto-light rounded-tr-xl rounded-br-xl hover:bg-catalina-blue-50">
+              class="flex items-center p-3 mr-3 text-m  font-roboto-light rounded-tr-xl rounded-br-xl hover:bg-catalina-blue-50">
               <UserGroupIcon class="h-6 w-6 mr-2 stroke-1" />
               Roles
             </router-link>
             <router-link v-if="permissions.includes('SYSTEM_CONFIGURATIONS')" :to="{ name: 'Configurations' }"
               :class="{ 'bg-catalina-blue-50': $route.name === 'Configurations' }"
-              class="flex items-center p-2 p-3 mr-3 text-m block font-roboto-light rounded-tr-xl rounded-br-xl hover:bg-catalina-blue-50">
+              class="flex items-center p-3 mr-3 text-m  font-roboto-light rounded-tr-xl rounded-br-xl hover:bg-catalina-blue-50">
               <CogIcon class="h-6 w-6 mr-2 stroke-1" />
               Configurations
             </router-link>
@@ -59,7 +57,6 @@
         </div>
       </div>
     </div>
-
     <div class="flex flex-col h-screen flex-1 space-y-4 p-4 justify-center">
       <div class="flex flex-row space-x-4 bg-catskill-white-100 shadow-sm p-4 rounded-xl">
         <div class="flex-1 bg-catskill-white-100">

@@ -22,6 +22,18 @@ class UserSchema(BaseModel):
         }
 
 
+class UserResetPasswordSchema(BaseModel):
+    password: str
+
+    class Config:
+        validate_default = True
+        json_schema_extra = {
+            "example": {
+                "password": "password",
+            }
+        }
+
+
 class TokenSchema(BaseModel):
     access_token: str
     token_type: str
